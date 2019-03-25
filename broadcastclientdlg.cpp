@@ -93,7 +93,7 @@ void BroadcastClientDlg::clickedSendButton()
 }
 
 QString IPV4IntegerToString(quint32 ip) {
-    return QString("%1:%2:%3:%4").arg((ip>>24)&0xFF).arg((ip>>16)&0xFF).arg((ip>>8)&0xFF).arg(ip&0xFF);
+    return QString("%1.%2.%3.%4").arg((ip>>24)&0xFF).arg((ip>>16)&0xFF).arg((ip>>8)&0xFF).arg(ip&0xFF);
 }
 
 void BroadcastClientDlg::recvData()
@@ -106,13 +106,17 @@ void BroadcastClientDlg::recvData()
         udpSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
         QString recvBuffer = datagram.data();
         quint32 ip = sender.toIPv4Address();
-        QString ipString = sender.toString();
-        QAbstractSocket::NetworkLayerProtocol protocol = sender.protocol();
         QString ipv4String = IPV4IntegerToString(ip);
+        QString showString = QString("RECV %1' BROADCAST DATA:%2").arg(ipv4String).arg(recvBuffer);
 
-        //if (sender.toString() == ipaddressLineEdit->text()) {
-            recvText->append("\r\n\r\n");
-            recvText->append(recvBuffer);
-        //}
+        if (!ipaddressLineEdit->text().isEmpty()) {
+            if (ipv4String == ipaddressLineEdit->text()) {
+                recvText->append(showString);
+            }
+        }
+        else
+        {
+            recvText->append(showString);
+        }
     }
 }
