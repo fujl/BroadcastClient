@@ -9,10 +9,13 @@ BroadcastClientDlg::BroadcastClientDlg(QWidget *parent) :
     portLabel = new QLabel(tr("Port:"), this);
 
     ipaddressLineEdit = new QLineEdit(this);
+    ipaddressLineEdit->setPlaceholderText(tr("请输入IP地址"));
     portLineEdit = new QLineEdit(this);
     portLineEdit->setValidator(new QIntValidator(1, 65535, this));
+    portLineEdit->setPlaceholderText(tr("请输入端口"));
 
     sendText = new QTextEdit(this);
+    sendText->setPlaceholderText(tr("请输入发送内容"));
     recvText = new QTextEdit(this);
     recvText->setReadOnly(true);
 
